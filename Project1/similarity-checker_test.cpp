@@ -24,6 +24,14 @@ TEST(SimilarityCheckerTest, LengthIsGreaterThanTwice)
     EXPECT_EQ(0, checker.getResult("ABC", "DDDXFFFF"));
 }
 
+TEST(SimilarityCheckerTest, SameCharUsed)
+{
+    SimlilarityChecker checker;
+    EXPECT_EQ(100, checker.getResult("ASD", "DSA"));
+    EXPECT_EQ(0, checker.getResult("A", "BB"));
+    EXPECT_EQ(40, checker.getResult("AAABB", "BA"));
+    EXPECT_EQ(30, checker.getResult("AA", "AAE"));
+}
 
 
 int main()
