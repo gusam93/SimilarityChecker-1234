@@ -1,38 +1,42 @@
 #include "gmock/gmock.h"
 #include "similarity-checker.cpp"
 
+class SimilarityCheckerFixture : public testing::Test {
+public:
+    void CheckScore(double expected, const string& input1, const string& input2) {
+        EXPECT_EQ(expected, checker.getResult(input1, input2));
+    }
+    SimlilarityChecker checker;
+};
 
-TEST(SimilarityCheckerTest, SameWord)
+TEST_F(SimilarityCheckerFixture, SameWord)
 {
-    SimlilarityChecker checker;
-    EXPECT_EQ(100, checker.getResult("ABC", "ABC"));
+    CheckScore(100, "ABC", "ABC");
 }
-TEST(SimilarityCheckerTest, SameLengthWithDifferentWords)
+TEST_F(SimilarityCheckerFixture, SameLengthWithDifferentWords)
 {
-    SimlilarityChecker checker;
+    CheckScore(60, "ABC", "DEF");
     EXPECT_EQ(60, checker.getResult("ABC", "DEF"));
 }
-TEST(SimilarityCheckerTest, LengthIsLessEqualWTwice)
+TEST_F(SimilarityCheckerFixture, LengthIsLessEqualWTwice)
 {
-    SimlilarityChecker checker;
+    CheckScore(20, "ABC", "DEFGE");
     EXPECT_EQ(20, checker.getResult("ABC", "DEFGE"));
 }
 
-TEST(SimilarityCheckerTest, LengthIsGreaterThanTwice)
+TEST_F(SimilarityCheckerFixture, LengthIsGreaterThanTwice)
 {
-    SimlilarityChecker checker;
+    CheckScore(0, "ABC", "DDDXFFFF");
     EXPECT_EQ(0, checker.getResult("ABC", "DDDXFFFF"));
 }
 
-TEST(SimilarityCheckerTest, SameCharUsed)
+TEST_F(SimilarityCheckerFixture, SameCharUsed)
 {
-    SimlilarityChecker checker;
-    EXPECT_EQ(100, checker.getResult("ASD", "DSA"));
-    EXPECT_EQ(0, checker.getResult("A", "BB"));
-    EXPECT_EQ(40, checker.getResult("AAABB", "BA"));
-    EXPECT_EQ(30, checker.getResult("AA", "AAE"));
+    CheckScore(100, "ASD", "DSA");
+    CheckScore(0, "A", "BB");
+    CheckScore(40, "AAABB", "BA");
+    CheckScore(30, "AA", "AAE");
 }
-
 
 int main()
 {
