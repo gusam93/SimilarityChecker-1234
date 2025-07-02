@@ -2,11 +2,12 @@
 #include "similarity-checker.cpp"
 
 
-TEST(SimilarityCheckerTest, TC1)
+TEST(SimilarityCheckerTest, SameWord)
 {
     SimlilarityChecker checker;
-    EXPECT_EQ(1, 1);
+    EXPECT_EQ(100, checker.getResult("ABC", "ABC"));
 }
+
 int main()
 {
     testing::InitGoogleMock();
